@@ -48,6 +48,20 @@ Enhance devDependencies with...
 "typescript": "~4.1.5"
 `
 <br/>
+For projects -> project-name -> architect -> build and serve, replace
+'@angular-devkit/build-angular' with 'ngx-build-plus'. 
+<br/>
+In the 'build' options,  add customer webpack config...
+<br/>
+`
+"customWebpackConfig": {
+"path": "./webpack.config.js",
+"replaceDuplicatePlugins": true
+},
+`
+
+## Webpack
+Add webpack configuration file (e.g. webpack.config.js)
 
 ## Development server
 

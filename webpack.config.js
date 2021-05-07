@@ -1,13 +1,58 @@
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 module.exports = {
+  entry: './src/main.ts',
+
   output: {
+    path: path.resolve.resolve(__dirname, 'dist'),
+    filename: 'ngx-module-federation.bundle.js',
+    publicPath: "http://localhost:8080/"
   },
 
-  optimization: {
+  resolve: {
+    extensions: [
+      ".ts", ".js", ".json"
+    ]
+  },
+
+  devServer: {
+    contentBase: path.join(__dirname, "public"),
+    port: 8080,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers":
+        "X-Requested-With, content-type, Authorization",
+    }
+  },
+
+  module: {
+    rules: [
+      {
+        test: /\.m?js/,
+        type: "javascript/auto",
+        resolve: {
+          fullySpecified: false,
+        },
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.(ts|tsx|js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "ts-loader",
+        },
+      },
+    ],
   },
 
   plugins: [
+    new HtmlWebPackPlugin({
+      template: "./src/index.html",
+    }),
     new ModuleFederationPlugin({
       shared: {
         "@angular/core": { singleton: true, strictVersion: true },
