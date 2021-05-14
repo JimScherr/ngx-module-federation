@@ -1,13 +1,20 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
-const path = require('path');
+
+const Path = require('path');
+
+// const PackageJsonDependencies = require("./package.json").dependencies;
+
+// const NgxArchModuleFederationWebPack = require('@angular-architects/module-federation/webpack');
+// const NgxArchModuleFederationSharedMappings = new NgxArchModuleFederationWebPack.SharedMappings();
+//
+// NgxArchModuleFederationSharedMappings.register(
+//   Path.join(__dirname, './tsconfig.json'),
+//   [ /* mapped paths to share */ ]
+// )
 
 module.exports = {
-  entry: './src/main.ts',
-
   output: {
-    path: path.resolve.resolve(__dirname, 'dist'),
-    filename: 'host.bundle.js',
+    path: Path.resolve(__dirname, 'dist'),
     publicPath: "http://localhost:8080/"
   },
 
@@ -18,7 +25,7 @@ module.exports = {
   },
 
   devServer: {
-    contentBase: path.join(__dirname, "public"),
+    contentBase: Path.join(__dirname, "public"),
     port: 8080,
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -26,6 +33,11 @@ module.exports = {
       "Access-Control-Allow-Headers":
         "X-Requested-With, content-type, Authorization",
     }
+  },
+
+  optimization: {
+    // Only needed to bypass a temporary bug
+    runtimeChunk: false
   },
 
   module: {
@@ -39,33 +51,32 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        include: [
+          Path.resolve(__dirname, "dist")
+        ],
+        loader: 'style-loader'
       },
       {
         test: /\.(ts|tsx|js|jsx)$/,
+        loader: 'ts-loader',
         exclude: /node_modules/,
-        use: {
-          loader: "ts-loader",
-        },
       },
     ],
   },
 
   plugins: [
-    new HtmlWebPackPlugin({
-      template: "./src/index.html",
-    }),
     new ModuleFederationPlugin({
+      name: "ngx-mfe-main",
+      filename: "remoteEntry.js",
+      remotes: {},
+      exposes: {},
       shared: {
-        "@angular/core": { singleton: true, strictVersion: true },
-        "@angular/common": { singleton: true, strictVersion: true },
-        "@angular/router": { singleton: true, strictVersion: true },
-        "@angular/material": { singleton: true, strictVersion: true },
-      },
-
-      remotes: {
-        // TBD
+        "@angular/core": { singleton: true, strictVersion: true, eager: true },
+        "@angular/common": { singleton: true, strictVersion: true, eager: true },
+        "@angular/router": { singleton: true, strictVersion: true, eager: true }
       }
-    })
+    }),
+
+    // NgxArchModuleFederationSharedMappings.getPlugin()
   ]
 };

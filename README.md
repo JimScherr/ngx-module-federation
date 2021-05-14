@@ -1,4 +1,7 @@
-# NgxModuleFederation
+# ngx-mfe-main
+This is the main container for subsequent modules.
+It was original cloned from [Ngx MicroFrontEnd Template](https://github.com/JimScherr/ngx-module-federation.git).
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.12.
 

@@ -1,13 +1,13 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "defaultProject": "host",
+  "defaultProject": "ngx-mfe-main",
   "version": 1,
   "newProjectRoot": "projects",
   "cli": {
     "packageManager": "yarn"
   },
   "projects": {
-    "host": {
+    "ngx-mfe-main": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -19,13 +19,13 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "customWebpackConfig": {
               "path": "./webpack.config.js",
               "replaceDuplicatePlugins": true
             },
-            "outputPath": "dist/host",
+            "outputPath": "dist/ngx-mfe-main",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -71,20 +71,24 @@
           }
         },
         "serve": {
-          "builder": "ngx-build-plus:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
+          "customWebpackConfig": {
+            "path": "./webpack.config.js",
+            "replaceDuplicatePlugins": true
+          },
           "options": {
-            "browserTarget": "host:build"
+            "browserTarget": "ngx-mfe-main:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "host:build:production"
+              "browserTarget": "ngx-mfe-main:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "host:build"
+            "browserTarget": "ngx-mfe-main:build"
           }
         },
         "test": {
@@ -121,11 +125,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "host:serve"
+            "devServerTarget": "ngx-mfe-main:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "host:serve:production"
+              "devServerTarget": "ngx-mfe-main:serve:production"
             }
           }
         }
