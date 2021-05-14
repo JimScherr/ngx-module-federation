@@ -4,10 +4,7 @@
   "scripts": {
     "ng": "ngx",
     "build": "ng build",
-    "start": "ng serve",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "serve": "ng serve"
   },
   "private": true,
   "resolutions": {
