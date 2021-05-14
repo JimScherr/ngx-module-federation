@@ -2,16 +2,6 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 
 const Path = require('path');
 
-// const PackageJsonDependencies = require("./package.json").dependencies;
-
-// const NgxArchModuleFederationWebPack = require('@angular-architects/module-federation/webpack');
-// const NgxArchModuleFederationSharedMappings = new NgxArchModuleFederationWebPack.SharedMappings();
-//
-// NgxArchModuleFederationSharedMappings.register(
-//   Path.join(__dirname, './tsconfig.json'),
-//   [ /* mapped paths to share */ ]
-// )
-
 module.exports = {
   output: {
     path: Path.resolve(__dirname, 'dist'),
@@ -75,8 +65,6 @@ module.exports = {
         "@angular/common": { singleton: true, strictVersion: true, eager: true },
         "@angular/router": { singleton: true, strictVersion: true, eager: true }
       }
-    }),
-
-    // NgxArchModuleFederationSharedMappings.getPlugin()
+    })
   ]
 };
